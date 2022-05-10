@@ -31,7 +31,7 @@ export default function CreateItem() {
       setFileUrl(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
-    }  
+    }
   }
   async function uploadToIPFS() {
     const { name, description, category, price } = formInput
@@ -47,7 +47,7 @@ export default function CreateItem() {
       return url
     } catch (error) {
       console.log('Error uploading file: ', error)
-    }  
+    }
   }
 
   async function listNFTInMarket() {
@@ -71,7 +71,7 @@ export default function CreateItem() {
   return (
     <div className="flex justify-center">
       <div className="w-1/2 flex flex-col pb-12">
-        <input 
+        <input
           placeholder="Asset Name"
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
@@ -81,11 +81,22 @@ export default function CreateItem() {
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
         />
-        <textarea
-          placeholder="Asset Category"
-          className="mt-2 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, category: e.target.value })}
-        />
+        {/*<textarea*/}
+        {/*  placeholder="Asset Category"*/}
+        {/*  className="mt-2 border rounded p-4"*/}
+        {/*  onChange={e => updateFormInput({ ...formInput, category: e.target.value })}*/}
+        {/*/>*/}
+
+        <select
+            className={'mt-2 border rounded p-4'}
+            onChange={e => updateFormInput({...formInput, category: e.target.value})}
+        >
+          <option value="" selected={true} disabled={true}>Select file type...</option>
+          <option value="image">Image</option>
+          <option value="video">Video</option>
+          <option value="audio">Audio</option>
+        </select>
+
         <input
           placeholder="Asset Price in Eth"
           className="mt-2 border rounded p-4"
@@ -102,7 +113,13 @@ export default function CreateItem() {
             <img className="rounded mt-4" width="350" src={fileUrl} />
           )
         }
-        <button onClick={listNFTInMarket} className="font-bold mt-4 bg-green-500 text-white rounded p-4 shadow-lg">
+        <button
+            onClick={listNFTInMarket}
+            className={`
+            font-bold mt-4 bg-green-500 text-white rounded p-4 shadow-lg disabled:opacity-75 disabled:cursor-not-allowed
+            `}
+            disabled={formInput.name.length === 0 || formInput.category.length === 0 || formInput.price.length === 0 || !fileUrl}
+        >
           Create NFT
         </button>
       </div>
